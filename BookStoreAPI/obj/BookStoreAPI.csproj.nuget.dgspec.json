@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\admin\\Documents\\Dotnet\\BookStoreAPI\\BookStoreAPI.csproj": {}
+    "C:\\Users\\admin\\Documents\\ISITECH-2324-B3RPID-NET\\projects\\BookStoreAPI\\BookStoreAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\admin\\Documents\\Dotnet\\BookStoreAPI\\BookStoreAPI.csproj": {
+    "C:\\Users\\admin\\Documents\\ISITECH-2324-B3RPID-NET\\projects\\BookStoreAPI\\BookStoreAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\admin\\Documents\\Dotnet\\BookStoreAPI\\BookStoreAPI.csproj",
+        "projectUniqueName": "C:\\Users\\admin\\Documents\\ISITECH-2324-B3RPID-NET\\projects\\BookStoreAPI\\BookStoreAPI.csproj",
         "projectName": "BookStoreAPI",
-        "projectPath": "C:\\Users\\admin\\Documents\\Dotnet\\BookStoreAPI\\BookStoreAPI.csproj",
+        "projectPath": "C:\\Users\\admin\\Documents\\ISITECH-2324-B3RPID-NET\\projects\\BookStoreAPI\\BookStoreAPI.csproj",
         "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\admin\\Documents\\Dotnet\\BookStoreAPI\\obj\\",
+        "outputPath": "C:\\Users\\admin\\Documents\\ISITECH-2324-B3RPID-NET\\projects\\BookStoreAPI\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config"

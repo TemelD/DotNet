@@ -69,38 +69,32 @@ public class BookController : ControllerBase
 [ProducesResponseType(200, Type = typeof(Book))]
 [ProducesResponseType(400)]
 [ProducesResponseType(404)]
-public async Task<ActionResult<Book>> PutBook(int id, [FromBody] Book updatedBook)
+public async Task<ActionResult<Book>> PutBook(int id, [FromBody] Book Book)
 {
-    if (updatedBook == null || id != updatedBook.Id)
+    if (Book == null || id != Book.Id)
     {
         return BadRequest();
     }
 
-    var existingBook = await _dbContext.Books.FindAsync(id);
+    var BookToUpdate = await _dbContext.Books.FirstOrDefaultAsync(b => b.Id == id);
 
-    if (existingBook == null)
+    if (BookToUpdate == null)
     {
         return NotFound();
     }
 
-    // Utilisez l'initialiseur d'objet pour mettre à jour les propriétés nécessaires
-    existingBook = new Book
+    BookToUpdate = new Book
     {
-        Id = existingBook.Id,
-        Title = updatedBook.Title, // Mise à jour de la propriété en lecture seule
-        Author = updatedBook.Author
+        Id = BookToUpdate.Id,
+        Title = Book.Title,
+        Author = Book.Author
     };
 
-    try
-    {
-        await _dbContext.SaveChangesAsync();
-        return Ok(existingBook);
-    }
-    catch (DbUpdateException ex)
-    {
-        // Log the exception
-        return BadRequest("Unable to save changes to the database. Please try again.");
-    }
+    _dbContext.Entry(BookToUpdate).State = EntityState.Modified;
+
+    await _dbContext.SaveChangesAsync();
+
+    return NoContent();
 }
 
 [HttpDelete("{id}")]
@@ -125,7 +119,7 @@ public async Task<ActionResult<Book>> DeleteBook(int id)
     catch (DbUpdateException ex)
     {
         // Log the exception
-        return BadRequest("Unable to save changes to the database. Please try again.");
+        return BadRequest(ex.InnerException?.Message);
     }
 }
 }
