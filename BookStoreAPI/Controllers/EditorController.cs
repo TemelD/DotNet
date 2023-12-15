@@ -20,13 +20,13 @@ namespace BookStoreAPI.Controllers; // BookStoreAPI est l'espace de nom racine d
 // On parle aussi de decorator / décorateur
 [ApiController]
 [Route("api/[controller]")]
-public class BookController : ControllerBase
+public class EditorController : ControllerBase
 {
 
     private readonly ApplicationDbContext _dbContext;
     private readonly IMapper _mapper;
 
-    public BookController(ApplicationDbContext dbContext, IMapper mapper)
+    public EditorController(ApplicationDbContext dbContext, IMapper mapper)
     {
         _dbContext = dbContext;
         _mapper = mapper;
@@ -37,19 +37,19 @@ public class BookController : ControllerBase
     // ActionResult designe le type de retour de la méthode de controller d'api
     //[Authorize]
     [HttpGet]
-    public async Task<ActionResult<List<BookDto>>> GetBooks()
+    public async Task<ActionResult<List<EditorDto>>> GetEditors()
     {
-        var books = await _dbContext.Books.ToListAsync();
+        var editors = await _dbContext.Editors.ToListAsync();
 
-        var booksDto = new List<BookDto>();
+        var editorsDto = new List<EditorDto>();
 
-        foreach (var book in books)
+        foreach (var editor in editors)
         {
-            booksDto.Add(_mapper.Map<BookDto>(book));
+            editorsDto.Add(_mapper.Map<EditorDto>(editor));
         }
 
 
-        return Ok(booksDto);
+        return Ok(editorsDto);
 
     }
     // POST: api/Book
@@ -57,29 +57,29 @@ public class BookController : ControllerBase
     //[Authorize]
     //[AllowAnonymous] // permet de ne pas avoir besoin d'être authentifié pour accéder à la méthode
     [HttpPost]
-    [ProducesResponseType(201, Type = typeof(Book))]
+    [ProducesResponseType(201, Type = typeof(Editor))]
     [ProducesResponseType(400)]
-    public async Task<ActionResult<Book>> PostBook([FromBody] Book book)
+    public async Task<ActionResult<Editor>> PostAuthor([FromBody] Editor editor)
     {
         // we check if the parameter is null
-        if (book == null)
+        if (editor == null)
         {
             return BadRequest();
         }
         // we check if the book already exists
-        Book? addedBook = await _dbContext.Books.FirstOrDefaultAsync(b => b.Title == book.Title);
-        if (addedBook != null)
+        Editor? addedEditor = await _dbContext.Editors.FirstOrDefaultAsync(e => e.Firstname == editor.Firstname);
+        if (addedEditor != null)
         {
-            return BadRequest("Book already exists");
+            return BadRequest("Editor already exists");
         }
         else
         {
             // we add the book to the database
-            await _dbContext.Books.AddAsync(book);
+            await _dbContext.Editors.AddAsync(editor);
             await _dbContext.SaveChangesAsync();
 
             // we return the book
-            return Created("api/book", book);
+            return Created("api/editor", editor);
 
         }
     }
@@ -91,31 +91,30 @@ public class BookController : ControllerBase
     [ProducesResponseType(204)]
     [ProducesResponseType(400)]
     [ProducesResponseType(404)]
-    public async Task<IActionResult> PutBook(int id, [FromBody] Book book)
+    public async Task<IActionResult> PutEditor(int id, [FromBody] Editor editor)
     {
-        if (id != book.Id)
+        if (id != editor.Id)
         {
             return BadRequest();
         }
-        var bookToUpdate = await _dbContext.Books.FirstOrDefaultAsync(b => b.Id == id);
+        var editorToUpdate = await _dbContext.Editors.FirstOrDefaultAsync(e => e.Id == id);
 
-        if (bookToUpdate == null)
+        if (editorToUpdate == null)
         {
             return NotFound();
         }
 
-        bookToUpdate.Author = book.Author;
-        bookToUpdate.Title = book.Title;
-        bookToUpdate.Abstract = book.Abstract;
+        editorToUpdate.Firstname = editor.Firstname;
+        editorToUpdate.Lastname = editor.Lastname;
         // continuez pour les autres propriétés
 
-        _dbContext.Entry(bookToUpdate).State = EntityState.Modified;
+        _dbContext.Entry(editorToUpdate).State = EntityState.Modified;
         await _dbContext.SaveChangesAsync();
         return NoContent();
     }
 
     [HttpPost("validationTest")]
-    public ActionResult ValidationTest([FromBody] BookDto book)
+    public ActionResult ValidationTest([FromBody] EditorDto editor)
     {
         if (!ModelState.IsValid)
         {
@@ -125,17 +124,17 @@ public class BookController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public async Task<ActionResult<Book>> DeleteBook(int id)
+    public async Task<ActionResult<Editor>> DeleteEditor(int id)
     {
-        var bookToDelete = await _dbContext.Books.FindAsync(id);
+        var editorToDelete = await _dbContext.Editors.FindAsync(id);
         // var bookToDelete = await _dbContext.Books.FirstOrDefaultAsync(b => b.Id == id);
 
-        if (bookToDelete == null)
+        if (editorToDelete == null)
         {
             return NotFound();
         }
 
-        _dbContext.Books.Remove(bookToDelete);
+        _dbContext.Editors.Remove(editorToDelete);
         await _dbContext.SaveChangesAsync();
         return NoContent();
     }

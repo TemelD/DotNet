@@ -20,13 +20,13 @@ namespace BookStoreAPI.Controllers; // BookStoreAPI est l'espace de nom racine d
 // On parle aussi de decorator / décorateur
 [ApiController]
 [Route("api/[controller]")]
-public class BookController : ControllerBase
+public class GenderController : ControllerBase
 {
 
     private readonly ApplicationDbContext _dbContext;
     private readonly IMapper _mapper;
 
-    public BookController(ApplicationDbContext dbContext, IMapper mapper)
+    public GenderController(ApplicationDbContext dbContext, IMapper mapper)
     {
         _dbContext = dbContext;
         _mapper = mapper;
@@ -37,19 +37,19 @@ public class BookController : ControllerBase
     // ActionResult designe le type de retour de la méthode de controller d'api
     //[Authorize]
     [HttpGet]
-    public async Task<ActionResult<List<BookDto>>> GetBooks()
+    public async Task<ActionResult<List<GenderDto>>> GetGenders()
     {
-        var books = await _dbContext.Books.ToListAsync();
+        var genders = await _dbContext.Genders.ToListAsync();
 
-        var booksDto = new List<BookDto>();
+        var gendersDto = new List<GenderDto>();
 
-        foreach (var book in books)
+        foreach (var gender in genders)
         {
-            booksDto.Add(_mapper.Map<BookDto>(book));
+            gendersDto.Add(_mapper.Map<GenderDto>(gender));
         }
 
 
-        return Ok(booksDto);
+        return Ok(gendersDto);
 
     }
     // POST: api/Book
@@ -57,29 +57,29 @@ public class BookController : ControllerBase
     //[Authorize]
     //[AllowAnonymous] // permet de ne pas avoir besoin d'être authentifié pour accéder à la méthode
     [HttpPost]
-    [ProducesResponseType(201, Type = typeof(Book))]
+    [ProducesResponseType(201, Type = typeof(Gender))]
     [ProducesResponseType(400)]
-    public async Task<ActionResult<Book>> PostBook([FromBody] Book book)
+    public async Task<ActionResult<Gender>> PostAuthor([FromBody] Gender gender)
     {
         // we check if the parameter is null
-        if (book == null)
+        if (gender == null)
         {
             return BadRequest();
         }
         // we check if the book already exists
-        Book? addedBook = await _dbContext.Books.FirstOrDefaultAsync(b => b.Title == book.Title);
-        if (addedBook != null)
+        Gender? addedGender = await _dbContext.Genders.FirstOrDefaultAsync(g => g.Label == gender.Label);
+        if (addedGender != null)
         {
-            return BadRequest("Book already exists");
+            return BadRequest("Gender already exists");
         }
         else
         {
             // we add the book to the database
-            await _dbContext.Books.AddAsync(book);
+            await _dbContext.Genders.AddAsync(gender);
             await _dbContext.SaveChangesAsync();
 
             // we return the book
-            return Created("api/book", book);
+            return Created("api/gender", gender);
 
         }
     }
@@ -91,31 +91,30 @@ public class BookController : ControllerBase
     [ProducesResponseType(204)]
     [ProducesResponseType(400)]
     [ProducesResponseType(404)]
-    public async Task<IActionResult> PutBook(int id, [FromBody] Book book)
+    public async Task<IActionResult> PutGender(int id, [FromBody] Gender gender)
     {
-        if (id != book.Id)
+        if (id != gender.Id)
         {
             return BadRequest();
         }
-        var bookToUpdate = await _dbContext.Books.FirstOrDefaultAsync(b => b.Id == id);
+        var genderToUpdate = await _dbContext.Genders.FirstOrDefaultAsync(g => g.Id == id);
 
-        if (bookToUpdate == null)
+        if (genderToUpdate == null)
         {
             return NotFound();
         }
 
-        bookToUpdate.Author = book.Author;
-        bookToUpdate.Title = book.Title;
-        bookToUpdate.Abstract = book.Abstract;
+        genderToUpdate.Label = gender.Label;
+
         // continuez pour les autres propriétés
 
-        _dbContext.Entry(bookToUpdate).State = EntityState.Modified;
+        _dbContext.Entry(genderToUpdate).State = EntityState.Modified;
         await _dbContext.SaveChangesAsync();
         return NoContent();
     }
 
     [HttpPost("validationTest")]
-    public ActionResult ValidationTest([FromBody] BookDto book)
+    public ActionResult ValidationTest([FromBody] GenderDto gender)
     {
         if (!ModelState.IsValid)
         {
@@ -125,17 +124,17 @@ public class BookController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public async Task<ActionResult<Book>> DeleteBook(int id)
+    public async Task<ActionResult<Gender>> DeleteGender(int id)
     {
-        var bookToDelete = await _dbContext.Books.FindAsync(id);
+        var genderToDelete = await _dbContext.Genders.FindAsync(id);
         // var bookToDelete = await _dbContext.Books.FirstOrDefaultAsync(b => b.Id == id);
 
-        if (bookToDelete == null)
+        if (genderToDelete == null)
         {
             return NotFound();
         }
 
-        _dbContext.Books.Remove(bookToDelete);
+        _dbContext.Genders.Remove(genderToDelete);
         await _dbContext.SaveChangesAsync();
         return NoContent();
     }

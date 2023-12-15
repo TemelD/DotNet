@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\admin\\Documents\\ISITECH-2324-B3RPID-NET\\projects\\BookStoreAPI\\BookStoreAPI.csproj": {}
+    "C:\\Users\\admin\\Documents\\Dotnet\\DotNet\\BookStoreAPI\\BookStoreAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\admin\\Documents\\ISITECH-2324-B3RPID-NET\\projects\\BookStoreAPI\\BookStoreAPI.csproj": {
+    "C:\\Users\\admin\\Documents\\Dotnet\\DotNet\\BookStoreAPI\\BookStoreAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\admin\\Documents\\ISITECH-2324-B3RPID-NET\\projects\\BookStoreAPI\\BookStoreAPI.csproj",
+        "projectUniqueName": "C:\\Users\\admin\\Documents\\Dotnet\\DotNet\\BookStoreAPI\\BookStoreAPI.csproj",
         "projectName": "BookStoreAPI",
-        "projectPath": "C:\\Users\\admin\\Documents\\ISITECH-2324-B3RPID-NET\\projects\\BookStoreAPI\\BookStoreAPI.csproj",
+        "projectPath": "C:\\Users\\admin\\Documents\\Dotnet\\DotNet\\BookStoreAPI\\BookStoreAPI.csproj",
         "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\admin\\Documents\\ISITECH-2324-B3RPID-NET\\projects\\BookStoreAPI\\obj\\",
+        "outputPath": "C:\\Users\\admin\\Documents\\Dotnet\\DotNet\\BookStoreAPI\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -38,6 +38,18 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[12.0.1, )"
+            },
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[12.0.1, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[8.0.0, )"
@@ -55,6 +67,10 @@
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.4.0, )"
+            },
+            "Swashbuckle.AspNetCore.Filters": {
+              "target": "Package",
+              "version": "[7.0.12, )"
             }
           },
           "imports": [
