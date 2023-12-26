@@ -52,8 +52,7 @@ public class GenderController : ControllerBase
         return Ok(gendersDto);
 
     }
-    // POST: api/Book
-    // BODY: Book (JSON)
+    
     //[Authorize]
     //[AllowAnonymous] // permet de ne pas avoir besoin d'être authentifié pour accéder à la méthode
     [HttpPost]
@@ -66,7 +65,6 @@ public class GenderController : ControllerBase
         {
             return BadRequest();
         }
-        // we check if the book already exists
         Gender? addedGender = await _dbContext.Genders.FirstOrDefaultAsync(g => g.Label == gender.Label);
         if (addedGender != null)
         {
@@ -74,19 +72,13 @@ public class GenderController : ControllerBase
         }
         else
         {
-            // we add the book to the database
             await _dbContext.Genders.AddAsync(gender);
             await _dbContext.SaveChangesAsync();
 
-            // we return the book
             return Created("api/gender", gender);
-
         }
     }
 
-    // TODO: Add PUT and DELETE methods
-    // PUT: api/Book/5
-    // BODY: Book (JSON)
     [HttpPut("{id}")]
     [ProducesResponseType(204)]
     [ProducesResponseType(400)]
@@ -105,8 +97,6 @@ public class GenderController : ControllerBase
         }
 
         genderToUpdate.Label = gender.Label;
-
-        // continuez pour les autres propriétés
 
         _dbContext.Entry(genderToUpdate).State = EntityState.Modified;
         await _dbContext.SaveChangesAsync();
@@ -127,7 +117,6 @@ public class GenderController : ControllerBase
     public async Task<ActionResult<Gender>> DeleteGender(int id)
     {
         var genderToDelete = await _dbContext.Genders.FindAsync(id);
-        // var bookToDelete = await _dbContext.Books.FirstOrDefaultAsync(b => b.Id == id);
 
         if (genderToDelete == null)
         {

@@ -12,12 +12,6 @@ using Microsoft.EntityFrameworkCore;
 namespace BookStoreAPI.Controllers; // BookStoreAPI est l'espace de nom racine de mon projet 
 
 
-// this designe la classe dans laquelle on se trouve
-
-
-// Ceci est une annotation, elle permet de définir des métadonnées sur une classe
-// Dans ce contexte elle permet de définir que la classe BookController est un contrôleur d'API
-// On parle aussi de decorator / décorateur
 [ApiController]
 [Route("api/[controller]")]
 public class EditorController : ControllerBase
@@ -52,8 +46,7 @@ public class EditorController : ControllerBase
         return Ok(editorsDto);
 
     }
-    // POST: api/Book
-    // BODY: Book (JSON)
+  
     //[Authorize]
     //[AllowAnonymous] // permet de ne pas avoir besoin d'être authentifié pour accéder à la méthode
     [HttpPost]
@@ -74,19 +67,14 @@ public class EditorController : ControllerBase
         }
         else
         {
-            // we add the book to the database
             await _dbContext.Editors.AddAsync(editor);
             await _dbContext.SaveChangesAsync();
 
-            // we return the book
             return Created("api/editor", editor);
 
         }
     }
 
-    // TODO: Add PUT and DELETE methods
-    // PUT: api/Book/5
-    // BODY: Book (JSON)
     [HttpPut("{id}")]
     [ProducesResponseType(204)]
     [ProducesResponseType(400)]
@@ -127,7 +115,6 @@ public class EditorController : ControllerBase
     public async Task<ActionResult<Editor>> DeleteEditor(int id)
     {
         var editorToDelete = await _dbContext.Editors.FindAsync(id);
-        // var bookToDelete = await _dbContext.Books.FirstOrDefaultAsync(b => b.Id == id);
 
         if (editorToDelete == null)
         {

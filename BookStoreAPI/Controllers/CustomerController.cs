@@ -11,13 +11,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BookStoreAPI.Controllers; // BookStoreAPI est l'espace de nom racine de mon projet 
 
-
-// this designe la classe dans laquelle on se trouve
-
-
-// Ceci est une annotation, elle permet de définir des métadonnées sur une classe
-// Dans ce contexte elle permet de définir que la classe BookController est un contrôleur d'API
-// On parle aussi de decorator / décorateur
 [ApiController]
 [Route("api/[controller]")]
 public class CustomerController : ControllerBase
@@ -52,8 +45,7 @@ public class CustomerController : ControllerBase
         return Ok(customersDto);
 
     }
-    // POST: api/Book
-    // BODY: Book (JSON)
+
     //[Authorize]
     //[AllowAnonymous] // permet de ne pas avoir besoin d'être authentifié pour accéder à la méthode
     [HttpPost]
@@ -66,7 +58,7 @@ public class CustomerController : ControllerBase
         {
             return BadRequest();
         }
-        // we check if the book already exists
+
         Customer? addedCustomer = await _dbContext.Customers.FirstOrDefaultAsync(c => c.Firstname == customer.Firstname);
         if (addedCustomer != null)
         {
@@ -74,19 +66,14 @@ public class CustomerController : ControllerBase
         }
         else
         {
-            // we add the book to the database
             await _dbContext.Customers.AddAsync(customer);
             await _dbContext.SaveChangesAsync();
 
-            // we return the book
             return Created("api/customer", customer);
 
         }
     }
 
-    // TODO: Add PUT and DELETE methods
-    // PUT: api/Book/5
-    // BODY: Book (JSON)
     [HttpPut("{id}")]
     [ProducesResponseType(204)]
     [ProducesResponseType(400)]
@@ -128,7 +115,6 @@ public class CustomerController : ControllerBase
     public async Task<ActionResult<Customer>> DeleteCustomer(int id)
     {
         var customerToDelete = await _dbContext.Customers.FindAsync(id);
-        // var bookToDelete = await _dbContext.Books.FirstOrDefaultAsync(b => b.Id == id);
 
         if (customerToDelete == null)
         {

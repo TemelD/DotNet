@@ -11,13 +11,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BookStoreAPI.Controllers; // BookStoreAPI est l'espace de nom racine de mon projet 
 
-
-// this designe la classe dans laquelle on se trouve
-
-
-// Ceci est une annotation, elle permet de définir des métadonnées sur une classe
-// Dans ce contexte elle permet de définir que la classe BookController est un contrôleur d'API
-// On parle aussi de decorator / décorateur
 [ApiController]
 [Route("api/[controller]")]
 public class AuthorController : ControllerBase
@@ -52,8 +45,7 @@ public class AuthorController : ControllerBase
         return Ok(authorsDto);
 
     }
-    // POST: api/Book
-    // BODY: Book (JSON)
+
     //[Authorize]
     //[AllowAnonymous] // permet de ne pas avoir besoin d'être authentifié pour accéder à la méthode
     [HttpPost]
@@ -66,7 +58,7 @@ public class AuthorController : ControllerBase
         {
             return BadRequest();
         }
-        // we check if the book already exists
+
         Author? addedAuthor = await _dbContext.Authors.FirstOrDefaultAsync(a => a.Firstname == author.Firstname);
         if (addedAuthor != null)
         {
@@ -74,19 +66,14 @@ public class AuthorController : ControllerBase
         }
         else
         {
-            // we add the book to the database
             await _dbContext.Authors.AddAsync(author);
             await _dbContext.SaveChangesAsync();
 
-            // we return the book
             return Created("api/author", author);
 
         }
     }
 
-    // TODO: Add PUT and DELETE methods
-    // PUT: api/Book/5
-    // BODY: Book (JSON)
     [HttpPut("{id}")]
     [ProducesResponseType(204)]
     [ProducesResponseType(400)]
@@ -106,7 +93,6 @@ public class AuthorController : ControllerBase
 
         authorToUpdate.Firstname = author.Firstname;
         authorToUpdate.Lastname = author.Lastname;
-        // continuez pour les autres propriétés
 
         _dbContext.Entry(authorToUpdate).State = EntityState.Modified;
         await _dbContext.SaveChangesAsync();
@@ -127,7 +113,6 @@ public class AuthorController : ControllerBase
     public async Task<ActionResult<Author>> DeleteAuthor(int id)
     {
         var authorToDelete = await _dbContext.Authors.FindAsync(id);
-        // var bookToDelete = await _dbContext.Books.FirstOrDefaultAsync(b => b.Id == id);
 
         if (authorToDelete == null)
         {
