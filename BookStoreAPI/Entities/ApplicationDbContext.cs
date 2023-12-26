@@ -32,4 +32,5 @@ public class ApplicationDbContext : DbContext
     public DbSet<Author> Authors { get; set; } = default!;
     public DbSet<Gender> Genders { get; set; } = default!;
     public DbSet<Editor> Editors { get; set; } = default!;
+    public DbSet<Customer> Customers { get; set; } = default!;
 }

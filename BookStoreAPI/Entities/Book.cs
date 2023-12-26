@@ -9,6 +9,7 @@ namespace BookStoreAPI.Entities
         public Author? Author { get; set; }
         public Gender? Gender { get; set; }
         public Editor? Editor { get; set; }
+        public Customer? Customer { get; set; }
 
         public string Abstract { get; set; } = string.Empty;
 
